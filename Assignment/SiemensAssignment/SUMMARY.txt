@@ -1,0 +1,24 @@
+Expression Evaluator Assignment — Summary
+==========================================
+
+Bugs fixed
+----------
+1. not — Evaluated the child, then ignored it and passed the raw AST node; nested cases like not(equals(...)) crashed.
+2. add — Used Get<double>() on boxed int values → InvalidCastException; mixed int/double (e.g. add(3, 6.8)) failed.
+3. equals — Compared only bools; README case equals(add(1, 2), 3) did not work.
+4. Errors — Failures showed as raw cast exceptions / vague messages; hard to debug.
+5. Evaluator if/else — Each new function required editing the walker; not extensible.
+6. add arity — Originally only two args; README asks for the sum of all passed arguments.
+
+What was implemented
+--------------------
+1. Fixed not to operate on evaluated Values (supports nesting).
+2. Fixed add for ints, doubles, mixed numbers, string concat, and N-argument sums.
+3. Fixed equals for numbers (including mixed int/double), nulls, and general value equality.
+4. Added EvaluationException with clear messages (wrong types, unknown function, etc.).
+5. Introduced IFunction + FunctionRegistry (strategy/registry) so functions are registered instead of chained if/else.
+6. Added contains (two strings → bool).
+7. Added fetchGet (URL → response body as string), with injectable HttpClient so tests use a fake handler (no live network required).
+8. Expanded unit tests (13 tests), including the assignment AST shape: contains(fetchGet(url), "Bing").
+
+
